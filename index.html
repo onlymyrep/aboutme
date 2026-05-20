@@ -23,11 +23,12 @@
         body { background-color: #000000; scroll-behavior: smooth; }
         .glass { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .text-gradient { background: linear-gradient(135deg, #06b6d4, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        /* Минималистичный плеер */
         .audio-player { background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); border-radius: 2rem; padding: 0.5rem 1rem; transition: all 0.2s; }
         .audio-player:hover { background: rgba(0,0,0,0.9); border-color: rgba(6,182,212,0.5); }
-        button { transition: all 0.2s; }
         button:active { transform: scale(0.95); }
+        /* Плавная подсветка навигации */
+        .nav-link-active .nav-icon-wrapper { border-color: #06b6d4 !important; color: #06b6d4 !important; box-shadow: 0 0 8px rgba(6,182,212,0.5); transform: scale(1.05); }
+        .mobile-nav-link-active { background-color: rgba(6,182,212,0.2) !important; color: #06b6d4 !important; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
@@ -46,23 +47,48 @@
     <main class="relative z-10 overflow-x-hidden">
         <div id="scrollProgress" class="fixed top-0 left-0 right-0 h-1 bg-cyan-500 origin-left z-50" style="transform: scaleX(0);"></div>
 
-        <!-- Mobile bottom navigation -->
+        <!-- Mobile bottom navigation с подсветкой -->
         <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 md:hidden flex gap-4 px-6 py-3 rounded-full glass border border-white/10 bg-black/70 backdrop-blur-xl">
-            <a href="#hero" class="p-2 rounded-full bg-cyan-500/20 text-cyan-400"><i data-lucide="home" class="w-4 h-4"></i></a>
-            <a href="#about" class="p-2 rounded-full text-zinc-500 hover:text-white"><i data-lucide="user" class="w-4 h-4"></i></a>
-            <a href="#experience" class="p-2 rounded-full text-zinc-500 hover:text-white"><i data-lucide="briefcase" class="w-4 h-4"></i></a>
-            <a href="#projects" class="p-2 rounded-full text-zinc-500 hover:text-white"><i data-lucide="code" class="w-4 h-4"></i></a>
-            <a href="#contact" class="p-2 rounded-full text-zinc-500 hover:text-white"><i data-lucide="mail" class="w-4 h-4"></i></a>
+            <a href="#hero" class="mobile-nav-link p-2 rounded-full transition-all duration-300 text-zinc-500" data-nav="hero"><i data-lucide="home" class="w-4 h-4"></i></a>
+            <a href="#about" class="mobile-nav-link p-2 rounded-full transition-all duration-300 text-zinc-500" data-nav="about"><i data-lucide="user" class="w-4 h-4"></i></a>
+            <a href="#experience" class="mobile-nav-link p-2 rounded-full transition-all duration-300 text-zinc-500" data-nav="experience"><i data-lucide="briefcase" class="w-4 h-4"></i></a>
+            <a href="#projects" class="mobile-nav-link p-2 rounded-full transition-all duration-300 text-zinc-500" data-nav="projects"><i data-lucide="code" class="w-4 h-4"></i></a>
+            <a href="#contact" class="mobile-nav-link p-2 rounded-full transition-all duration-300 text-zinc-500" data-nav="contact"><i data-lucide="mail" class="w-4 h-4"></i></a>
         </div>
 
-        <!-- Desktop Side Navigation -->
+        <!-- Desktop Side Navigation с подсветкой -->
         <div class="fixed left-8 top-1/2 -translate-y-1/2 hidden md:flex flex-col gap-6 z-50">
             <div class="absolute left-[19px] top-0 bottom-0 w-0.5 bg-zinc-800 -z-10"></div>
-            <a href="#hero" class="group flex items-center gap-4 relative"><div class="w-10 h-10 rounded-full border-2 flex items-center justify-center bg-black border-cyan-500 text-cyan-400 scale-110 shadow-[0_0_10px_rgba(34,211,238,0.5)]"><i data-lucide="home" class="w-4 h-4"></i></div><span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Главная</span></a>
-            <a href="#about" class="group flex items-center gap-4 relative"><div class="w-10 h-10 rounded-full border-2 border-zinc-800 text-zinc-600 flex items-center justify-center bg-black group-hover:border-zinc-400"><i data-lucide="user" class="w-4 h-4"></i></div><span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Обо мне</span></a>
-            <a href="#experience" class="group flex items-center gap-4 relative"><div class="w-10 h-10 rounded-full border-2 border-zinc-800 text-zinc-600 flex items-center justify-center bg-black group-hover:border-zinc-400"><i data-lucide="briefcase" class="w-4 h-4"></i></div><span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Опыт</span></a>
-            <a href="#projects" class="group flex items-center gap-4 relative"><div class="w-10 h-10 rounded-full border-2 border-zinc-800 text-zinc-600 flex items-center justify-center bg-black group-hover:border-zinc-400"><i data-lucide="folder-code" class="w-4 h-4"></i></div><span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Проекты</span></a>
-            <a href="#contact" class="group flex items-center gap-4 relative"><div class="w-10 h-10 rounded-full border-2 border-zinc-800 text-zinc-600 flex items-center justify-center bg-black group-hover:border-zinc-400"><i data-lucide="send" class="w-4 h-4"></i></div><span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Контакты</span></a>
+            <a href="#hero" class="group flex items-center gap-4 relative desktop-nav-link" data-nav="hero">
+                <div class="nav-icon-wrapper w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 bg-black border-zinc-800 text-zinc-600">
+                    <i data-lucide="home" class="w-4 h-4"></i>
+                </div>
+                <span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap">Главная</span>
+            </a>
+            <a href="#about" class="group flex items-center gap-4 relative desktop-nav-link" data-nav="about">
+                <div class="nav-icon-wrapper w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 bg-black border-zinc-800 text-zinc-600">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                </div>
+                <span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Обо мне</span>
+            </a>
+            <a href="#experience" class="group flex items-center gap-4 relative desktop-nav-link" data-nav="experience">
+                <div class="nav-icon-wrapper w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 bg-black border-zinc-800 text-zinc-600">
+                    <i data-lucide="briefcase" class="w-4 h-4"></i>
+                </div>
+                <span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Опыт</span>
+            </a>
+            <a href="#projects" class="group flex items-center gap-4 relative desktop-nav-link" data-nav="projects">
+                <div class="nav-icon-wrapper w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 bg-black border-zinc-800 text-zinc-600">
+                    <i data-lucide="folder-code" class="w-4 h-4"></i>
+                </div>
+                <span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Проекты</span>
+            </a>
+            <a href="#contact" class="group flex items-center gap-4 relative desktop-nav-link" data-nav="contact">
+                <div class="nav-icon-wrapper w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-300 bg-black border-zinc-800 text-zinc-600">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </div>
+                <span class="absolute left-14 px-3 py-1 rounded bg-zinc-900 border border-white/10 text-sm opacity-0 group-hover:opacity-100">Контакты</span>
+            </a>
         </div>
 
         <!-- HERO Section -->
@@ -100,13 +126,13 @@
         <!-- EXPERIENCE -->
         <section id="experience" class="py-20 relative"><div class="container mx-auto px-6"><div class="max-w-4xl mx-auto"><h2 class="text-3xl font-bold mb-16 text-center">Опыт <span class="text-gradient">работы</span></h2><div class="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-zinc-700 before:to-transparent"><div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group exp-item opacity-0 translate-x-[-20px] transition-all duration-700"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-zinc-900 shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2"><i data-lucide="briefcase" class="w-4 h-4 text-cyan-400"></i></div><div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-cyan-500/30 transition"><div class="flex flex-col sm:flex-row justify-between mb-4"><h3 class="font-bold text-lg text-white">DevOps / Системный аналитик</h3><time class="text-xs text-zinc-500 uppercase">2021 – н.в.</time></div><p class="text-cyan-400 text-sm mb-4">Freelance</p><ul class="space-y-2 text-sm text-zinc-400 list-disc pl-5"><li>CI/CD для Java: деплой 4ч → 15 мин.</li><li>Миграция на K8s, GitOps, Helm.</li><li>Снижение облачных расходов на 20%.</li><li>Vault, EFK.</li></ul></div></div><div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group exp-item opacity-0 translate-x-[20px] transition-all duration-700 delay-100"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-zinc-900 shadow shrink-0 md:order-1"><i data-lucide="smartphone" class="w-4 h-4 text-cyan-400"></i></div><div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-cyan-500/30 transition"><div class="flex flex-col sm:flex-row justify-between mb-4"><h3 class="font-bold text-lg text-white">iOS & Python разработчик</h3><time class="text-xs text-zinc-500">2024 – н.в.</time></div><p class="text-cyan-400 text-sm mb-4">Фриланс</p><ul class="space-y-2 text-sm text-zinc-400 list-disc pl-5"><li>Swift (MVVM, SwiftUI, CoreData), Python.</li><li>HR‑автоматизация: оценка, рассылки, поздравления.</li><li>Промт-инжиниринг: Agar.io, расписания, крестики-нолики.</li></ul></div></div><div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group exp-item opacity-0 translate-x-[-20px] transition-all duration-700 delay-200"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-zinc-900 shadow shrink-0 md:order-1"><i data-lucide="shield" class="w-4 h-4 text-cyan-400"></i></div><div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-cyan-500/30 transition"><div class="flex flex-col sm:flex-row justify-between mb-4"><h3 class="font-bold text-lg text-white">Инфраструктура & Наблюдаемость</h3><time class="text-xs text-zinc-500">2022 – 2025</time></div><p class="text-cyan-400 text-sm mb-4">DevOps</p><ul class="space-y-2 text-sm text-zinc-400 list-disc pl-5"><li>Кластер PG (Patroni): фейловер, PITR.</li><li>Prometheus + Grafana, алерты.</li><li>Ansible, управление конфигурациями.</li></ul></div></div></div></div></div></section>
 
-        <!-- PROJECTS -->
+        <!-- PROJECTS (оставлен без изменений, только секция id="projects") -->
         <section id="projects" class="py-20 bg-zinc-900/20 relative">
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
                     <h2 class="text-3xl font-bold mb-16 text-center">Ключевые <span class="text-gradient">проекты</span></h2>
                     
-                    <!-- DevOps & Automation (карточки кликабельны) -->
+                    <!-- DevOps & Automation -->
                     <h3 class="text-2xl font-semibold mb-6 text-cyan-400 flex items-center gap-2"><i data-lucide="settings" class="w-6 h-6"></i> DevOps & Автоматизация</h3>
                     <div class="grid md:grid-cols-2 gap-8 mb-16">
                         <a href="https://github.com/onlymyrep/DevOps_ci_cd" target="_blank" class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1 block">
@@ -141,12 +167,11 @@
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="calendar" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://onlymyrep.github.io/raspisanie/" class="text-zinc-500 hover:text-white"><i data-lucide="external-link" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Генератор расписания</h3><p class="text-sm text-cyan-500/80 mb-3">JS · HTML</p><p class="text-zinc-400 text-sm">Таблица → автоматическое расписание на почту.</p></div>
                     </div>
 
-                    <!-- Game Development (добавлен Swift Tic-Tac-Toe) -->
+                    <!-- Game Development -->
                     <h3 class="text-2xl font-semibold mb-6 text-cyan-400 flex items-center gap-2"><i data-lucide="gamepad-2" class="w-6 h-6"></i> Game Development</h3>
                     <div class="grid md:grid-cols-2 gap-8 mb-16">
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="gamepad-2" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://drive.google.com/file/d/1pS3PCluw7ep2L31QRqKOmG9k9Mza28cp/view" class="text-zinc-500 hover:text-white"><i data-lucide="video" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Agar.io Clone (Unity)</h3><p class="text-sm text-cyan-500/80 mb-3">Промт-инжиниринг</p><p class="text-zinc-400 text-sm">Клон популярной игры на Unity.</p></div>
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="braces" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://drive.google.com/file/d/1AZmJNQ_mSGkNXcZlci_dNae1eAjDYJ4n/view" class="text-zinc-500 hover:text-white"><i data-lucide="video" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Крестики-нолики (Java)</h3><p class="text-sm text-cyan-500/80 mb-3">Backend + Frontend</p><p class="text-zinc-400 text-sm">Игра с серверной логикой на Java.</p></div>
-                        <!-- Новая карточка: Крестики-нолики на Swift -->
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="smartphone" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://ap1-sw-t03.onrender.com/" class="text-zinc-500 hover:text-white"><i data-lucide="external-link" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Крестики-нолики (Swift)</h3><p class="text-sm text-cyan-500/80 mb-3">Vapor · Web</p><p class="text-zinc-400 text-sm">Игра на Swift (Vapor) с веб-интерфейсом.</p></div>
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="smile" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://onlymyrep.github.io/my_game_for_school_21/" class="text-zinc-500 hover:text-white"><i data-lucide="external-link" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Эмодзи-пазл</h3><p class="text-sm text-cyan-500/80 mb-3">Таймер · Ряд эмодзи</p><p class="text-zinc-400 text-sm">Собери одинаковый ряд на время.</p></div>
                         <div class="group bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-cyan-500/50 transition hover:-translate-y-1"><div class="flex justify-between items-start mb-4"><i data-lucide="dice-6" class="w-8 h-8 text-cyan-400"></i><a target="_blank" href="https://onlymyrep.github.io/8/" class="text-zinc-500 hover:text-white"><i data-lucide="external-link" class="w-5 h-5"></i></a></div><h3 class="text-xl font-bold mb-1">Игра "8"</h3><p class="text-sm text-cyan-500/80 mb-3">Логика как в крестиках-ноликах</p><p class="text-zinc-400 text-sm">Собери победную комбинацию (три в ряд) на поле 3×3.</p></div>
@@ -186,7 +211,7 @@
         </section>
     </main>
 
-    <!-- Минималистичный аудиоплеер (правый нижний угол) -->
+    <!-- Минималистичный аудиоплеер -->
     <div class="fixed bottom-6 right-6 z-50 audio-player border border-white/10 shadow-lg flex items-center gap-3 text-sm">
         <button id="playPauseBtn" class="text-cyan-400 hover:text-cyan-300 p-1"><i data-lucide="play" class="w-5 h-5" id="playIcon"></i></button>
         <button id="prevBtn" class="text-zinc-400 hover:text-white p-1"><i data-lucide="skip-back" class="w-4 h-4"></i></button>
@@ -198,13 +223,10 @@
         lucide.createIcons();
 
         // === Аудиоплеер ===
-        // Список треков: загрузите файлы track1.mp3, track2.mp3, ... в папку music/
         const tracks = [
             { name: "Трек 1", url: "music/track1.mp3" },
             { name: "Трек 2", url: "music/track2.mp3" },
-            { name: "Трек 3", url: "music/track3.mp3" },
-            { name: "Трек 4", url: "music/track4.mp3" },
-            { name: "Трек 5", url: "music/track5.mp3" }
+            { name: "Трек 3", url: "music/track3.mp3" }
         ];
         let currentTrack = 0;
         let isPlaying = false;
@@ -263,10 +285,54 @@
         playPauseBtn.addEventListener('click', togglePlay);
         prevBtn.addEventListener('click', prevTrack);
         nextBtn.addEventListener('click', nextTrack);
-        // Загрузка первого трека, если есть
         if (tracks.length) loadTrack(0);
 
-        // Остальные скрипты (warning, scroll, observer)
+        // === Подсветка навигации при скролле ===
+        const sections = ['hero', 'about', 'experience', 'projects', 'contact'];
+        const desktopNavLinks = document.querySelectorAll('.desktop-nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function updateActiveNav() {
+            const scrollPos = window.scrollY + 150; // небольшой офсет
+            let currentSection = 'hero';
+            for (const section of sections) {
+                const el = document.getElementById(section);
+                if (el && el.offsetTop <= scrollPos) {
+                    currentSection = section;
+                } else {
+                    break;
+                }
+            }
+            // Десктоп
+            desktopNavLinks.forEach(link => {
+                const nav = link.getAttribute('data-nav');
+                const iconWrapper = link.querySelector('.nav-icon-wrapper');
+                if (nav === currentSection) {
+                    iconWrapper.classList.add('border-cyan-500', 'text-cyan-400', 'shadow-[0_0_8px_rgba(34,211,238,0.5)]');
+                    iconWrapper.classList.remove('border-zinc-800', 'text-zinc-600');
+                } else {
+                    iconWrapper.classList.remove('border-cyan-500', 'text-cyan-400', 'shadow-[0_0_8px_rgba(34,211,238,0.5)]');
+                    iconWrapper.classList.add('border-zinc-800', 'text-zinc-600');
+                }
+            });
+            // Мобильные
+            mobileNavLinks.forEach(link => {
+                const nav = link.getAttribute('data-nav');
+                if (nav === currentSection) {
+                    link.classList.add('bg-cyan-500/20', 'text-cyan-400');
+                    link.classList.remove('text-zinc-500');
+                } else {
+                    link.classList.remove('bg-cyan-500/20', 'text-cyan-400');
+                    link.classList.add('text-zinc-500');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        window.addEventListener('resize', updateActiveNav);
+        updateActiveNav();
+
+        // Остальные скрипты (warning, scroll progress, observer)
         const warning = document.getElementById('warningOverlay');
         const dismissBtn = document.getElementById('dismissWarning');
         if(dismissBtn) dismissBtn.addEventListener('click', () => { warning.style.opacity = '0'; setTimeout(() => { warning.style.display = 'none'; }, 700); });
