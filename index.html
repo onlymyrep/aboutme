@@ -20,7 +20,15 @@
         }
     </script>
     <style>
-        /* Убрали глобальный overflow:hidden, теперь скролл управляется через JS */
+        /* Скрываем полосу прокрутки, но оставляем возможность скролла */
+        body::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+        }
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
         .glass { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .text-gradient { background: linear-gradient(135deg, #06b6d4, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .audio-player { background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); border-radius: 2rem; padding: 0.5rem 1rem; transition: all 0.2s; }
